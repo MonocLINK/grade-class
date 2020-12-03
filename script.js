@@ -1,7 +1,13 @@
 $(function() {
 
     $("#inputForm").submit(calculate);
+    $("#name").click(sortByName);
+    $("#percent").click(sortByPercent);
+    var studentArray = [];
 
+    $("#debug").click(function() {
+        console.log(studentArray.length);
+    });
 
     function calculate(event) {
         event.preventDefault();
@@ -25,9 +31,29 @@ $(function() {
             student["letterGrade"] = "F";
         }
 
+        studentArray.push(student);
+
         // outputs
 
         $("#nameOutput").text(`${student.fName} ${student.lName}`)
         $("#gradeOutput").text(`${student.letterGrade} ${student.percentage.toFixed(2)}%`)
+    }
+
+    function sortByName() {
+        studentArray.sort(function(a, b) {
+            return a.lName > b.lName ? 1 : -1;
+        });
+        for (var i = 0; i < studentArray.length; i++) {
+            $("#sortOutputName").text(`${studentArray[i].fName} ${studentArray[i].lName}`)
+        }
+    }
+
+    function sortByPercent() {
+        studentArray.sort(function(a, b) {
+            return a.percentage > b.percentage ? 1 : -1;
+        });
+        for (var i = 0; i < studentArray.length; i++) {
+            $("#sortOutputPercent").text(`${studentArray[i].fName} ${studentArray[i].lName} PERCENT: ${studentArray[i].percentage}`)
+        }
     }
 });
